@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Data @ToString
@@ -19,10 +20,12 @@ public class Vertex {
         this.edges = new ArrayList<Edge>();
     }
 
-    // Adiciona uma aresta à lista de arestas do vértice
+    // Adiciona uma aresta à lista de arestas do vértice de forma ordenada
     // Pré-condição: A aresta deve ser válida e conectada a este vértice
     // Pós-condição: A aresta é adicionada à lista de arestas do vértice
     public void appendEdge(Edge edge) {
         edges.add(edge);
+        edges.sort(Comparator.comparingInt(e -> e.getTo().getId()));
     }
+
 }

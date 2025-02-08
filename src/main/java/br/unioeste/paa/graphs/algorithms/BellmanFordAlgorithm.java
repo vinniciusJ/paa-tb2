@@ -63,10 +63,6 @@ public class BellmanFordAlgorithm {
             int targetId = entry.getKey();
             int distance = entry.getValue();
 
-            if (targetId == sourceId) {
-                continue;
-            }
-
             System.out.print("Destino: " + targetId + "\tDist.: " + distance + "\tCaminho: ");
             printPath(targetId, predecessors);
             System.out.println();

@@ -13,6 +13,11 @@ public class ComponentsAlgorithms {
     // Pré-condição: O grafo deve estar inicializado corretamente
     // Pós-condição: As componentes conexos são exibidos no console
     public static void showConnectedComponents(Graph graph) {
+        if (graph.isOriented()) {
+            System.out.println("O grafo é orientado. O algoritmo de Componentes Conexas requer grafos não orientados.");
+            return;
+        }
+
         Map<Integer, Boolean> visited = new HashMap<>();
 
         for (int vertexId : graph.getVertices().keySet()) {
@@ -41,7 +46,7 @@ public class ComponentsAlgorithms {
     // Pós-condição: As componentes fortemente conexos são exibidos no console e um arquivo de imagem é gerado
     public static void showStronglyConnectedComponents(Graph graph, String filename) {
         if (!graph.isOriented()) {
-            showConnectedComponents(graph);
+            System.out.println("O grafo é não orientado. O algoritmo de Componentes Fortemente Conexas requer grafos orientados.");
             return;
         }
 

@@ -87,6 +87,17 @@ public class GraphUtils {
         saveGraphToFile(g, filename);
     }
 
+    // Gera uma cor única para cada componente conexa com base em um índice
+    // Pré-condição: O índice deve ser um número inteiro não negativo
+    // Pós-condição: Retorna uma cor no formato HSB, garantindo diversidade nas cores geradas
+    private static Color generateRandomColor(int index) {
+        float hue = (index * 137) % 360 / 360f; // Garante distribuição uniforme no espectro
+        float saturation = 0.6f + (index % 5) * 0.08f; // Alterna saturação entre 0.6 e 1.0
+        float brightness = 0.7f + (index % 3) * 0.1f; // Alterna brilho entre 0.7 e 1.0
+
+        return Color.hsv(hue, Math.min(saturation, 1.0f), Math.min(brightness, 1.0f));
+    }
+
     // Gera uma imagem do grafo com componentes fortemente conexas destacados
     // Pré-condição: O grafo e a lista de componentes fortemente conexas devem ser válidos
     // Pós-condição: Uma imagem do grafo com os componentes fortemente conexas destacados é gerada e salva no arquivo especificado
@@ -96,11 +107,10 @@ public class GraphUtils {
         Map<Integer, Color> vertexColors = new HashMap<>();
         Set<String> addedEdges = new HashSet<>();
 
-        Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE, Color.PURPLE, Color.YELLOW, Color.CYAN};
         int colorIndex = 0;
 
         for (List<Integer> scc : stronglyConnectedComponents) {
-            Color color = colors[colorIndex % colors.length];
+            Color color = generateRandomColor(colorIndex);
             colorIndex++;
             for (int vertexId : scc) {
                 vertexColors.put(vertexId, color);

@@ -9,50 +9,71 @@ import br.unioeste.paa.graphs.utils.GraphUtils;
 import br.unioeste.paa.graphs.utils.ViewUtils;
 import br.unioeste.paa.graphs.views.AppView;
 
-
 public class App {
     private Graph graph;
 
-    private void exportToPNG(){
+    // Exporta o grafo atual para um arquivo PNG
+    // Pré-condição: O grafo deve estar carregado e o nome do arquivo deve ser válido
+    // Pós-condição: O grafo é exportado como uma imagem PNG no caminho especificado
+    private void exportToPNG() {
         String filename = ViewUtils.input("Informe o nome do arquivo para ser exportado: ");
-
-        GraphUtils.exportToPNG(graph, "src/main/resources/" + filename);
+        GraphUtils.generateGraphImage(graph, filename);
     }
 
-    private void applyDFSAlgorithm(){
+    // Aplica o algoritmo de DFS (Busca em profundidade) no grafo
+    // Pré-condição: O grafo deve estar carregado e o vértice inicial deve ser válido
+    // Pós-condição: O algoritmo DFS é executado e o resultado é exibido
+    private void applyDFSAlgorithm() {
         Integer startVertex = ViewUtils.input("Informe o vértice inicial: ", Integer::parseInt);
-
         GraphSearchAlgorithms.dfs(startVertex, graph);
     }
 
-    private void applyBFSAlgorithm(){
+    // Aplica o algoritmo de BFS (Busca em largura) no grafo
+    // Pré-condição: O grafo deve estar carregado e o vértice inicial deve ser válido
+    // Pós-condição: O algoritmo BFS é executado e o resultado é exibido
+    private void applyBFSAlgorithm() {
         Integer startVertex = ViewUtils.input("Informe o vértice inicial: ", Integer::parseInt);
-
         GraphSearchAlgorithms.bfs(startVertex, graph);
     }
 
-    private void applyBellmanFordAlgorithm(){
+    // Aplica o algoritmo de Bellman-Ford no grafo
+    // Pré-condição: O grafo deve estar carregado e o vértice inicial deve ser válido
+    // Pós-condição: O algoritmo Bellman-Ford é executado e os caminhos mais curtos são exibidos
+    private void applyBellmanFordAlgorithm() {
         Integer startVertex = ViewUtils.input("Informe o vértice inicial: ", Integer::parseInt);
-
         BellmanFordAlgorithm.calculateShortestPaths(startVertex, graph);
     }
 
-    private void showConnectedComponents(){
+    // Exibe a árvore geradora mínima (MST) do grafo usando o algoritmo de Kruskal
+    // Pré-condição: O grafo deve estar carregado e o nome do arquivo deve ser válido
+    // Pós-condição: A MST é exibida no terminal e o grafo é exportado destacando as arestas que compõe ela
+    private void showMinimumSpanningTree() {
+        String filename = ViewUtils.input("Informe o nome do arquivo para ser exportado: ");
+        KruskalAlgorithm.showMinimumSpanningTree(graph, filename);
+    }
+
+    // Exibe as componentes conexas do grafo
+    // Pré-condição: O grafo deve estar carregado
+    // Pós-condição: As componentes conexas são exibidas
+    private void showConnectedComponents() {
         ComponentsAlgorithms.showConnectedComponents(graph);
     }
 
-    private void showStronglyConnectedComponents(){
-        ComponentsAlgorithms.showStronglyConnectedComponents(graph);
+    // Exibe as componentes fortemente conexas do grafo
+    // Pré-condição: O grafo deve estar carregado e o nome do arquivo deve ser válido
+    // Pós-condição: As componentes fortemente conexas são exibidos no terminal e grafo é exportado destacando elas
+    private void showStronglyConnectedComponents() {
+        String filename = ViewUtils.input("Informe o nome do arquivo para ser exportado: ");
+        ComponentsAlgorithms.showStronglyConnectedComponents(graph, filename);
     }
 
-    private void showMinimumSpanningTree(){
-        KruskalAlgorithm.showMinimumSpanningTree(graph);
-    }
-
-    private void handleGraphOptions(){
+    // Manipula as opções do menu relacionadas ao grafo
+    // Pré-condição: O grafo deve estar carregado
+    // Pós-condição: A ação correspondente à opção selecionada é executada
+    private void handleGraphOptions() {
         int option = AppView.inputMenuOption();
 
-        switch (option){
+        switch (option) {
             case 0 -> bootstrap();
             case 1 -> exportToPNG();
             case 2 -> applyDFSAlgorithm();
@@ -65,20 +86,24 @@ public class App {
             default -> handleGraphOptions();
         }
 
+        ViewUtils.waitForEnter();
         handleGraphOptions();
     }
 
-    public void bootstrap(){
+    // Inicializa o grafo a partir de um arquivo de texto
+    // Pré-condição: O caminho do arquivo deve ser válido e o arquivo deve estar no formato correto
+    // Pós-condição: O grafo é carregado e as opções do menu são exibidas
+    public void bootstrap() {
         String filename = ViewUtils.input("Informe o caminho para o arquivo de texto do grafo: ");
-
-        graph = GraphUtils.readGraph("src/main/resources/" + filename);
-
+        graph = GraphUtils.readGraph(filename);
         handleGraphOptions();
     }
 
-    public static void start(){
+    // Inicia a aplicação
+    // Pré-condição: Nenhuma
+    // Pós-condição: A aplicação é iniciada e o grafo é carregado
+    public static void start() {
         App app = new App();
-
         app.bootstrap();
     }
 }

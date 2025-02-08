@@ -4,13 +4,18 @@ import br.unioeste.paa.graphs.models.Edge;
 import br.unioeste.paa.graphs.models.Graph;
 import br.unioeste.paa.graphs.models.UnionFind;
 import br.unioeste.paa.graphs.models.Vertex;
+import br.unioeste.paa.graphs.utils.GraphUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class KruskalAlgorithm {
-    public static void showMinimumSpanningTree(Graph graph) {
+
+    // Exibe a árvore geradora mínima de um grafo usando o algoritmo de Kruskal
+    // Pré-condição: O grafo deve ser conexo e possuir vértices e arestas corretamente definidos
+    // Pós-condição: A árvore geradora mínima é exibida no console e uma imagem é gerada
+    public static void showMinimumSpanningTree(Graph graph, String filename) {
         List<Edge> edges = new ArrayList<>();
 
         for(Vertex vertex : graph.getVertices().values()){
@@ -35,6 +40,7 @@ public class KruskalAlgorithm {
             }
         }
 
+        System.out.println();
         System.out.println("Peso total: " + totalWeight);
         System.out.print("Arestas: ");
 
@@ -44,5 +50,6 @@ public class KruskalAlgorithm {
 
         System.out.println();
 
+        GraphUtils.generateGraphImageWithHighlightedEdges(graph, mstEdges, filename);
     }
 }

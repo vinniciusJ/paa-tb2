@@ -8,10 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BellmanFordAlgorithm {
+
+    // Calcula os caminhos mínimos a partir de um vértice fonte usando o algoritmo de Bellman-Ford
+    // Pré-condição: O grafo deve ser orientado e não conter ciclos negativos acessíveis a partir da fonte
+    // Pós-condição: Os menores caminhos da fonte para todos os outros vértices são exibidos no console
     public static void calculateShortestPaths(int sourceId, Graph graph) {
         if (!graph.isOriented()) {
             System.out.println("O grafo não é orientado. O algoritmo Bellman-Ford requer grafos orientados.");
-
             return;
         }
 
@@ -65,22 +68,21 @@ public class BellmanFordAlgorithm {
             }
 
             System.out.print("Destino: " + targetId + "\tDist.: " + distance + "\tCaminho: ");
-
             printPath(targetId, predecessors);
-
             System.out.println();
         }
     }
 
+    // Imprime o caminho mínimo de um vértice até a origem
+    // Pré-condição: O mapa de predecessores deve estar corretamente preenchido
+    // Pós-condição: O caminho é impresso no console
     private static void printPath(int vertexId, Map<Integer, Integer> predecessors) {
         if (predecessors.get(vertexId) == null) {
             System.out.print(vertexId);
-
             return;
         }
 
         printPath(predecessors.get(vertexId), predecessors);
-
         System.out.print(" - " + vertexId);
     }
 }

@@ -16,6 +16,16 @@ public class KruskalAlgorithm {
     // Pré-condição: O grafo deve ser conexo e possuir vértices e arestas corretamente definidos
     // Pós-condição: A árvore geradora mínima é exibida no console e uma imagem é gerada
     public static void showMinimumSpanningTree(Graph graph, String filename) {
+        if (graph.isOriented()) {
+            System.out.println("O grafo é orientado. O algoritmo Kruskal requer grafos não orientados.");
+            return;
+        }
+
+        if(!GraphSearchAlgorithms.isConnected(graph)) {
+            System.out.println("O grafo é desconexo. O algoritmo Kruskal requer grafos conexos.");
+            return;
+        }
+
         List<Edge> edges = new ArrayList<>();
 
         for(Vertex vertex : graph.getVertices().values()){

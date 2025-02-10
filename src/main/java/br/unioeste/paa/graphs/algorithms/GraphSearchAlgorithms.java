@@ -16,16 +16,16 @@ public class GraphSearchAlgorithms {
     // Pós-condição: Os vértices acessíveis são visitados e impressos na ordem da DFS
     public static void dfs(int startVertexId, Graph graph) {
         Set<Integer> visited = new HashSet<>();
-        dfs(startVertexId, visited, graph);
+        dfs(startVertexId, visited, graph, true);
         System.out.println();
     }
 
-    // Método auxiliar recursivo para a DFS
+    // Método auxiliar recursivo para a DFS que mostra o passo a passo se print for verdadeiro
     // Pré-condição: O conjunto de vértices visitados deve estar inicializado
     // Pós-condição: Todos os vértices acessíveis a partir do vértice atual são visitados
-    private static void dfs(int vertexId, Set<Integer> visited, Graph graph) {
+    private static void dfs(int vertexId, Set<Integer> visited, Graph graph, Boolean print) {
         visited.add(vertexId);
-        System.out.print(" - " + vertexId);
+        if(print) System.out.print(" - " + vertexId);
 
         Vertex currentVertex = graph.findById(vertexId);
 
@@ -35,7 +35,7 @@ public class GraphSearchAlgorithms {
                 int neighborId = neighbor.getId();
 
                 if (!visited.contains(neighborId)) {
-                    dfs(neighborId, visited, graph);
+                    dfs(neighborId, visited, graph, print);
                 }
             }
         }
@@ -72,4 +72,21 @@ public class GraphSearchAlgorithms {
 
         System.out.println();
     }
+
+    // Verifica se um grafo não orientado é conexo
+    // Pré-condição: O grafo deve ser não orientado
+    // Pós-condição: Retorna true se o grafo for conexo, false caso contrário
+    public static boolean isConnected(Graph graph) {
+        if (graph.getVertices().isEmpty()) {
+            return true;
+        }
+
+        Set<Integer> visited = new HashSet<>();
+        int startVertexId = graph.getVertices().values().iterator().next().getId();
+
+        dfs(startVertexId, visited, graph, false);
+
+        return visited.size() == graph.getVertices().size();
+    }
+
 }
